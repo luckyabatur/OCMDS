@@ -51,8 +51,8 @@ def main():
     l2 = 0.5
     c = 5
     g = 9.81
-    phi0 = np.pi/10
-    psi0 = np.pi/10
+    phi0 = 0
+    psi0 = np.pi
     d_phi0 = 0
     d_psi0 = 0
 

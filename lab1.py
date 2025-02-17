@@ -46,7 +46,7 @@ def main():
     time_steps_amount = 1000
     T = np.linspace(0, 4 * np.pi, time_steps_amount)
 
-    # Указание значения физических величин в каждый момент времени  
+    # Указание значения физических величин в каждый момент времени
     X = F_x(T)  # Координата по оси OX
     Y = F_y(T)  # Координата по оси OY
     VX = F_Vx(T)  # Скорость по оси OX
@@ -69,10 +69,7 @@ def main():
     ax1.set(
         xlim=[-8, 8],
         ylim=[-8, 8],
-        title=f"\
-            Радиyс-вектор точки - серый вектор (масштаб 1.0)\n\
-            Скорость (V) - зеленый вектор (масштаб {V_scale})\n\
-            Ускорение (W) - красный вектор (масштаб {W_scale})",
+        title=f"            Радиyс-вектор точки - серый вектор (масштаб 1.0)\n            Скорость (V) - зеленый вектор (масштаб {V_scale})\n            Ускорение (W) - красный вектор (масштаб {W_scale})",
     )
     ax1.plot(X, Y)
 
@@ -124,6 +121,17 @@ def main():
         color=W_color,
     )
 
+    # Добавление стрелки к серому вектору
+    R_phi = np.arctan2(Y, X)
+    X_arr_R = np.multiply(arr_scale, np.array([-0.7, 0, -0.7]))
+    Y_arr_R = np.multiply(arr_scale, np.array([0.2, 0, -0.2]))
+    RX_R, RY_R = Rot2D(X_arr_R, Y_arr_R, R_phi[0])
+    (R_arrow,) = ax1.plot(
+        [X[0] + RX_R[i] for i in range(len(RX_R))],
+        [Y[0] + RY_R[i] for i in range(len(RY_R))],
+        color=R_color,
+    )
+
     def animate(i):
         # Анимация материальной точки
         point.set_data([X[i]], [Y[i]])  # Смена положения материальной точки
@@ -147,7 +155,14 @@ def main():
             [Y[i] + WY[i] * W_scale + RY_W[j] for j in range(len(RY_W))]
         )
 
-        return point, R_line, V_line, V_arrow, W_line, W_arrow
+        # Анимация стрелки радиус-вектора
+        RX_R, RY_R = Rot2D(X_arr_R, Y_arr_R, R_phi[i])
+        R_arrow.set_data(
+            [X[i] + RX_R[j] for j in range(len(RX_R))],
+            [Y[i] + RY_R[j] for j in range(len(RY_R))]
+        )
+
+        return point, R_line, R_arrow, V_line, V_arrow, W_line, W_arrow
 
     animation = FuncAnimation(fig, animate, frames=time_steps_amount, interval=100, blit=False)
 

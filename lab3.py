@@ -24,9 +24,7 @@ def EqOfMovement(y, t, l1, l2, c, m, g):
     a21 = l1*np.cos(psi - phi)
     a22 = l2
 
-
     b1 = -(2*g + (c*l1/m)*np.cos(phi))*np.sin(phi) + l2*(dpsi**2)*np.sin(psi - phi)
-
     b2 = -g*np.sin(psi) - l1*(dphi**2)*np.sin(psi - phi)
 
     det = a11*a22 - a12*a21
@@ -150,11 +148,11 @@ def main():
         lM2.set_data([xM1[i], xM2[i]], [yM1[i], yM2[i]])
         box.set_data(xbox + xM1[i], ybox - l0 - h_box/2)
         spring.set_data(xP + xM1[i], yP*(l0 + yM1[i]) - l0)
-        M1.set_data(xM1[i], yM1[i])
-        M2.set_data(xM2[i], yM2[i])
+        M1.set_data([xM1[i]], [yM1[i]])
+        M2.set_data([xM2[i]], [yM2[i]])
         return lM1, lM2, box, spring, M1, M2
 
-    anim = FuncAnimation(fig, animate, frames=Nt, interval=5)
+    anim = FuncAnimation(fig, animate, frames=Nt, interval=1)
     plt.show()
 
 if __name__ == "__main__":

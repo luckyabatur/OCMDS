@@ -18,7 +18,6 @@ def main():
     l1 = 2
     l2 = 2.2
 
-
     phi = 1*np.sin(1.7*t) + 2*np.cos(t)
     psi = 2*np.sin(1.7*t) + 3*np.cos(3*t)
 
@@ -49,7 +48,6 @@ def main():
     ax.plot([-0.3, -0.3], [-5, 5], color='black')
     ax.plot([-0.3, 0, -0.3, -0.3], [-0.2, 0, 0.2, -0.2], color='black')
 
-
     box = ax.plot(xbox + xM1[0], ybox - l0 - h_box/2, color='gray')[0]
     lM1 = ax.plot([0, xM1[0]], [0, yM1[0]], color='brown')[0]
     lM2 = ax.plot([xM1[0], xM2[0]], [yM1[0], yM2[0]], color='black')[0]
@@ -70,11 +68,11 @@ def main():
         lM2.set_data([xM1[i], xM2[i]], [yM1[i], yM2[i]])
         box.set_data(xbox + xM1[i], ybox - l0 - h_box/2)
         spring.set_data(xP + xM1[i], yP*(l0 + yM1[i]) - l0)
-        M1.set_data(xM1[i], yM1[i])
-        M2.set_data(xM2[i], yM2[i])
+        M1.set_data([xM1[i]], [yM1[i]])
+        M2.set_data([xM2[i]], [yM2[i]])
         return lM1, lM2, box, spring, M1, M2
 
-    animation = FuncAnimation(figure, animate, frames=time_steps_amount, interval=100)
+    animation = FuncAnimation(figure, animate, frames=time_steps_amount, interval=100, blit=False)
     plt.show()
 
 if __name__ == '__main__':
